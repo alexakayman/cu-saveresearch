@@ -100,15 +100,13 @@ export default function ResearchTable({
                 </td>
                 <td className="py-4 px-6">
                   <div className="flex items-center gap-2">
-                    <a
-                      href={`https://www.nsf.gov/awardsearch/showAward?AWD_ID=${item.awardNumber}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <Link
+                      href={`/research/${item.awardNumber}`}
                       className="p-2 hover:bg-gray-50 rounded-full transition-colors"
                       onClick={(e) => e.stopPropagation()}
                     >
                       <ExternalLink className="h-5 w-5 text-[#012169]" />
-                    </a>
+                    </Link>
                     <button
                       className="bg-[#012169] text-white px-4 py-2 rounded-full text-sm hover:bg-[#001345] transition-colors"
                       onClick={(e) => {

@@ -38,8 +38,8 @@ export default function ResearchClient({
 }: ResearchClientProps) {
   const [filteredData, setFilteredData] = useState<ResearchData[]>(initialData);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedImpactArea, setSelectedImpactArea] = useState("");
-  const [selectedExpiry, setSelectedExpiry] = useState("");
+  const [selectedGrantType, setSelectedGrantType] = useState("");
+  const [selectedAmountRange, setSelectedAmountRange] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -47,13 +47,19 @@ export default function ResearchClient({
   const [itemsPerPage, setItemsPerPage] = useState(25);
   const [pageInput, setPageInput] = useState("1");
 
-  const handleSearch = async (term: string) => {
-    setSearchTerm(term);
-    setCurrentPage(1);
-    setPageInput("1");
+  const fetchData = async (
+    page: number,
+    itemsPerPage: number,
+    searchTerm: string = "",
+    grantType: string = "",
+    amountRange: string = ""
+  ) => {
     try {
       setIsLoading(true);
-      const { data, error } = await supabase
+      const start = (page - 1) * itemsPerPage;
+      const end = start + itemsPerPage - 1;
+
+      let query = supabase
         .from("research")
         .select(
           `
@@ -63,11 +69,47 @@ export default function ResearchClient({
           principal_investigator,
           pi_email_address,
           award_instrument
-        `
+        `,
+          { count: "exact" }
         )
-        .ilike("title", `%${term}%`)
-        .range(0, itemsPerPage - 1)
-        .order("award_number", { ascending: true });
+        .order("award_number", { ascending: true })
+        .range(start, end);
+
+      if (searchTerm) {
+        query = query.ilike("title", `%${searchTerm}%`);
+      }
+
+      if (grantType) {
+        query = query.eq("award_instrument", grantType);
+      }
+
+      if (amountRange) {
+        switch (amountRange) {
+          case "under500k":
+            query = query.lt("awarded_amount_to_date", 500000);
+            break;
+          case "500k-1m":
+            query = query
+              .gte("awarded_amount_to_date", 500000)
+              .lt("awarded_amount_to_date", 1000000);
+            break;
+          case "1m-5m":
+            query = query
+              .gte("awarded_amount_to_date", 1000000)
+              .lt("awarded_amount_to_date", 5000000);
+            break;
+          case "5m-10m":
+            query = query
+              .gte("awarded_amount_to_date", 5000000)
+              .lt("awarded_amount_to_date", 10000000);
+            break;
+          case "over10m":
+            query = query.gte("awarded_amount_to_date", 10000000);
+            break;
+        }
+      }
+
+      const { data, count, error } = await query;
 
       if (error) throw error;
 
@@ -82,28 +124,44 @@ export default function ResearchClient({
       }));
 
       setFilteredData(formattedData);
+      setTotalCount(count || 0);
       setError(null);
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "An error occurred while searching"
+        err instanceof Error
+          ? err.message
+          : "An error occurred while fetching data"
       );
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleImpactAreaChange = (area: string) => {
-    setSelectedImpactArea(area);
+  const handleSearch = async (term: string) => {
+    setSearchTerm(term);
     setCurrentPage(1);
     setPageInput("1");
-    const filtered = filteredData.filter(
-      (item) => area === "" || item.impactArea === area
+    await fetchData(
+      1,
+      itemsPerPage,
+      term,
+      selectedGrantType,
+      selectedAmountRange
     );
-    setFilteredData(filtered);
   };
 
-  const handleExpiryChange = (year: string) => {
-    setSelectedExpiry(year);
+  const handleGrantTypeChange = async (type: string) => {
+    setSelectedGrantType(type);
+    setCurrentPage(1);
+    setPageInput("1");
+    await fetchData(1, itemsPerPage, searchTerm, type, selectedAmountRange);
+  };
+
+  const handleAmountRangeChange = async (range: string) => {
+    setSelectedAmountRange(range);
+    setCurrentPage(1);
+    setPageInput("1");
+    await fetchData(1, itemsPerPage, searchTerm, selectedGrantType, range);
   };
 
   const handleSupport = (awardNumber: string) => {
@@ -123,19 +181,33 @@ export default function ResearchClient({
     setPageInput(value);
   };
 
-  const handlePageInputSubmit = (e: React.FormEvent) => {
+  const handlePageInputSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const pageNum = parseInt(pageInput);
     if (pageNum >= 1 && pageNum <= totalPages) {
       setCurrentPage(pageNum);
+      await fetchData(
+        pageNum,
+        itemsPerPage,
+        searchTerm,
+        selectedGrantType,
+        selectedAmountRange
+      );
     }
   };
 
-  const handleItemsPerPageChange = (value: string) => {
+  const handleItemsPerPageChange = async (value: string) => {
     const newItemsPerPage = parseInt(value);
     setItemsPerPage(newItemsPerPage);
     setCurrentPage(1);
     setPageInput("1");
+    await fetchData(
+      1,
+      newItemsPerPage,
+      searchTerm,
+      selectedGrantType,
+      selectedAmountRange
+    );
   };
 
   const totalPages = Math.ceil(totalCount / itemsPerPage);
@@ -144,8 +216,8 @@ export default function ResearchClient({
     <>
       <Search
         onSearch={handleSearch}
-        onImpactAreaChange={handleImpactAreaChange}
-        onExpiryChange={handleExpiryChange}
+        onGrantTypeChange={handleGrantTypeChange}
+        onAmountRangeChange={handleAmountRangeChange}
       />
 
       {isLoading ? (
@@ -180,9 +252,17 @@ export default function ResearchClient({
             <div className="flex items-center gap-4">
               <Button
                 variant="outline"
-                onClick={() => {
-                  setCurrentPage((prev) => Math.max(prev - 1, 1));
-                  setPageInput(Math.max(currentPage - 1, 1).toString());
+                onClick={async () => {
+                  const newPage = Math.max(currentPage - 1, 1);
+                  setCurrentPage(newPage);
+                  setPageInput(newPage.toString());
+                  await fetchData(
+                    newPage,
+                    itemsPerPage,
+                    searchTerm,
+                    selectedGrantType,
+                    selectedAmountRange
+                  );
                 }}
                 disabled={currentPage === 1}
                 className="border-[#012169] text-[#012169] hover:bg-[#012169] hover:text-white"
@@ -208,10 +288,16 @@ export default function ResearchClient({
 
               <Button
                 variant="outline"
-                onClick={() => {
-                  setCurrentPage((prev) => Math.min(prev + 1, totalPages));
-                  setPageInput(
-                    Math.min(currentPage + 1, totalPages).toString()
+                onClick={async () => {
+                  const newPage = Math.min(currentPage + 1, totalPages);
+                  setCurrentPage(newPage);
+                  setPageInput(newPage.toString());
+                  await fetchData(
+                    newPage,
+                    itemsPerPage,
+                    searchTerm,
+                    selectedGrantType,
+                    selectedAmountRange
                   );
                 }}
                 disabled={currentPage === totalPages}

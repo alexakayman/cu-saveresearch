@@ -26,31 +26,31 @@ import { useState } from "react";
 
 interface SearchProps {
   onSearch: (searchTerm: string) => void;
-  onImpactAreaChange: (area: string) => void;
-  onExpiryChange: (year: string) => void;
+  onGrantTypeChange: (type: string) => void;
+  onAmountRangeChange: (range: string) => void;
 }
 
 export default function Search({
   onSearch,
-  onImpactAreaChange,
-  onExpiryChange,
+  onGrantTypeChange,
+  onAmountRangeChange,
 }: SearchProps) {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedImpactArea, setSelectedImpactArea] = useState<string>("");
-  const [selectedExpiry, setSelectedExpiry] = useState<string>("");
+  const [selectedGrantType, setSelectedGrantType] = useState<string>("");
+  const [selectedAmountRange, setSelectedAmountRange] = useState<string>("");
 
   const handleSearch = () => {
     onSearch(searchTerm);
   };
 
-  const handleImpactAreaSelect = (area: string) => {
-    setSelectedImpactArea(area);
-    onImpactAreaChange(area);
+  const handleGrantTypeSelect = (type: string) => {
+    setSelectedGrantType(type);
+    onGrantTypeChange(type);
   };
 
-  const handleExpirySelect = (year: string) => {
-    setSelectedExpiry(year);
-    onExpiryChange(year);
+  const handleAmountRangeSelect = (range: string) => {
+    setSelectedAmountRange(range);
+    onAmountRangeChange(range);
   };
 
   return (
@@ -73,7 +73,7 @@ export default function Search({
           Search
         </button>
 
-        {/* Impact Areas Dropdown */}
+        {/* Grant Type Dropdown */}
         <Popover>
           <PopoverTrigger asChild>
             <Button
@@ -81,45 +81,38 @@ export default function Search({
               role="combobox"
               className="h-[46px] w-full md:w-[180px] justify-between border-[#012169] text-[#012169] hover:bg-[#012169] hover:text-white"
             >
-              {selectedImpactArea || "Impact Areas"}
+              {selectedGrantType || "Grant Type"}
               <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-[200px] p-0 bg-white">
             <Command className="bg-white">
-              <CommandInput placeholder="Search fields..." className="h-9" />
+              <CommandInput
+                placeholder="Search grant types..."
+                className="h-9"
+              />
               <CommandList className="bg-white">
-                <CommandEmpty>No area found.</CommandEmpty>
+                <CommandEmpty>No grant type found.</CommandEmpty>
                 <CommandGroup className="bg-white">
                   <CommandItem
                     className="cursor-pointer hover:bg-[#012169] hover:text-white"
-                    onSelect={() => handleImpactAreaSelect("Cancer")}
+                    onSelect={() => handleGrantTypeSelect("Standard Grant")}
                   >
-                    Cancer
+                    Standard Grant
                   </CommandItem>
                   <CommandItem
                     className="cursor-pointer hover:bg-[#012169] hover:text-white"
-                    onSelect={() => handleImpactAreaSelect("Longevity")}
+                    onSelect={() => handleGrantTypeSelect("Continuing Grant")}
                   >
-                    Longevity
+                    Continuing Grant
                   </CommandItem>
                   <CommandItem
                     className="cursor-pointer hover:bg-[#012169] hover:text-white"
-                    onSelect={() => handleImpactAreaSelect("Anthropology")}
+                    onSelect={() =>
+                      handleGrantTypeSelect("Cooperative Agreement")
+                    }
                   >
-                    Anthropology
-                  </CommandItem>
-                  <CommandItem
-                    className="cursor-pointer hover:bg-[#012169] hover:text-white"
-                    onSelect={() => handleImpactAreaSelect("Neuroscience")}
-                  >
-                    Neuroscience
-                  </CommandItem>
-                  <CommandItem
-                    className="cursor-pointer hover:bg-[#012169] hover:text-white"
-                    onSelect={() => handleImpactAreaSelect("Environment")}
-                  >
-                    Environment
+                    Cooperative Agreement
                   </CommandItem>
                 </CommandGroup>
               </CommandList>
@@ -127,47 +120,44 @@ export default function Search({
           </PopoverContent>
         </Popover>
 
-        {/* Expires Dropdown */}
-        <Select onValueChange={handleExpirySelect} value={selectedExpiry}>
+        {/* Amount Range Dropdown */}
+        <Select
+          onValueChange={handleAmountRangeSelect}
+          value={selectedAmountRange}
+        >
           <SelectTrigger className="h-[46px] w-full md:w-[180px] border-[#012169] text-[#012169] hover:bg-[#012169] hover:text-white">
-            <SelectValue placeholder="Expires" />
+            <SelectValue placeholder="Amount Range" />
           </SelectTrigger>
           <SelectContent className="bg-white">
             <SelectItem
-              value="2025"
+              value="under500k"
               className="hover:bg-[#012169] hover:text-white"
             >
-              2025
+              Under $500K
             </SelectItem>
             <SelectItem
-              value="2024"
+              value="500k-1m"
               className="hover:bg-[#012169] hover:text-white"
             >
-              2024
+              $500K - $1M
             </SelectItem>
             <SelectItem
-              value="2023"
+              value="1m-5m"
               className="hover:bg-[#012169] hover:text-white"
             >
-              2023
+              $1M - $5M
             </SelectItem>
             <SelectItem
-              value="2022"
+              value="5m-10m"
               className="hover:bg-[#012169] hover:text-white"
             >
-              2022
+              $5M - $10M
             </SelectItem>
             <SelectItem
-              value="2021"
+              value="over10m"
               className="hover:bg-[#012169] hover:text-white"
             >
-              2021
-            </SelectItem>
-            <SelectItem
-              value="2020"
-              className="hover:bg-[#012169] hover:text-white"
-            >
-              2020
+              Over $10M
             </SelectItem>
           </SelectContent>
         </Select>
