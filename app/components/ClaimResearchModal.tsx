@@ -179,7 +179,9 @@ export default function ClaimResearchModal({
             {error && <p className="text-sm text-red-500">{error}</p>}
             {success && (
               <p className="text-sm text-green-500">
-                Thank you for your claim! We will be in touch soon.
+                Thank you for your claim! We will verify your claim and update
+                the posting accordingly if eligible. Email
+                alexa.kayman@columbia.edu for updates or questions.
               </p>
             )}
             <div className="flex justify-end gap-4 pt-4">

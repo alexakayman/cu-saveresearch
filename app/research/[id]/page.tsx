@@ -337,7 +337,7 @@ export default function ResearchPage({
               {research.research_claims && (
                 <div className="mt-8">
                   <h2 className="text-xl font-semibold text-[#012169] mb-4">
-                    Research Asks ({research.research_claims.length})
+                    Verified Research Asks ({research.research_claims.length})
                   </h2>
                   {research.research_claims.length > 0 ? (
                     <div className="overflow-x-auto">
