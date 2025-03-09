@@ -14,8 +14,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { supabase } from "../lib/supabase";
+import PledgeModal from "./PledgeModal";
+import ClaimResearchModal from "./ClaimResearchModal";
 
 interface ResearchData {
+  id: number;
   awardNumber: string;
   researchName: string;
   impactArea: string;
@@ -46,6 +49,11 @@ export default function ResearchClient({
   const [totalCount, setTotalCount] = useState(initialTotalCount);
   const [itemsPerPage, setItemsPerPage] = useState(25);
   const [pageInput, setPageInput] = useState("1");
+  const [isPledgeModalOpen, setIsPledgeModalOpen] = useState(false);
+  const [isClaimModalOpen, setIsClaimModalOpen] = useState(false);
+  const [selectedResearch, setSelectedResearch] = useState<ResearchData | null>(
+    null
+  );
 
   const fetchData = async (
     page: number,
@@ -63,6 +71,7 @@ export default function ResearchClient({
         .from("research")
         .select(
           `
+          id,
           award_number,
           title,
           awarded_amount_to_date,
@@ -114,6 +123,7 @@ export default function ResearchClient({
       if (error) throw error;
 
       const formattedData: ResearchData[] = data.map((item) => ({
+        id: item.id,
         awardNumber: item.award_number,
         researchName: item.title,
         impactArea: "Environment",
@@ -165,11 +175,23 @@ export default function ResearchClient({
   };
 
   const handleSupport = (awardNumber: string) => {
-    console.log("Support clicked for award:", awardNumber);
+    const research = filteredData.find(
+      (item) => item.awardNumber === awardNumber
+    );
+    if (research) {
+      setSelectedResearch(research);
+      setIsPledgeModalOpen(true);
+    }
   };
 
   const handleClaim = (awardNumber: string) => {
-    console.log("Claim clicked for award:", awardNumber);
+    const research = filteredData.find(
+      (item) => item.awardNumber === awardNumber
+    );
+    if (research) {
+      setSelectedResearch(research);
+      setIsClaimModalOpen(true);
+    }
   };
 
   const handleViewExternal = (awardNumber: string) => {
@@ -314,6 +336,33 @@ export default function ResearchClient({
             onClaim={handleClaim}
             onViewExternal={handleViewExternal}
           />
+
+          {selectedResearch && (
+            <>
+              <PledgeModal
+                isOpen={isPledgeModalOpen}
+                onClose={() => {
+                  setIsPledgeModalOpen(false);
+                  setSelectedResearch(null);
+                }}
+                researchId={selectedResearch.id}
+                researchTitle={selectedResearch.researchName}
+                awardInstrument={selectedResearch.award_instrument}
+                principalInvestigator={selectedResearch.principal_investigator}
+              />
+              <ClaimResearchModal
+                isOpen={isClaimModalOpen}
+                onClose={() => {
+                  setIsClaimModalOpen(false);
+                  setSelectedResearch(null);
+                }}
+                researchId={selectedResearch.id}
+                researchTitle={selectedResearch.researchName}
+                awardInstrument={selectedResearch.award_instrument}
+                principalInvestigator={selectedResearch.principal_investigator}
+              />
+            </>
+          )}
         </>
       )}
     </>

@@ -39,6 +39,29 @@ export default function PledgeModal({
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
+  const formatCurrency = (value: string) => {
+    // Remove all non-digit characters
+    const digits = value.replace(/\D/g, "");
+
+    // Convert to cents then back to dollars with 2 decimal places
+    const number = parseFloat(digits) / 100;
+
+    // Format as US currency
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(number || 0);
+  };
+
+  const handleAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    // Store the raw numeric value but display formatted
+    const numericValue = value.replace(/[^0-9.]/g, "");
+    setAmount(numericValue);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -141,15 +164,14 @@ export default function PledgeModal({
             </div>
             <div className="space-y-2">
               <label htmlFor="amount" className="text-sm font-medium">
-                Pledge Amount ($)
+                Pledge Amount
               </label>
               <Input
                 id="amount"
-                type="number"
-                min="0"
-                step="0.01"
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
+                type="text"
+                inputMode="decimal"
+                value={amount ? formatCurrency(amount) : ""}
+                onChange={handleAmountChange}
                 placeholder="Enter amount (optional)"
                 className="h-12"
               />
