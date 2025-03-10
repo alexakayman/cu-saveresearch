@@ -77,6 +77,17 @@ export default async function Home() {
             height={35}
             priority
           />
+          <nav className="flex space-x-4">
+            <a
+              href="/claims/research"
+              className="text-[#012169] text-lg hover:underline"
+            >
+              Claim Research
+            </a>
+            <a href="/faq" className="text-[#012169] text-lg hover:underline">
+              FAQs
+            </a>
+          </nav>
         </div>
       </header>
 
