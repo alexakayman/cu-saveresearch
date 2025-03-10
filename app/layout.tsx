@@ -33,7 +33,7 @@ export default function RootLayout({
         >
           Alexa Kayman
         </a>
-        .<br></br>Co-conspired by{" "}
+        ,{" "}
         <a
           href="https://www.linkedin.com/in/josephjojo/"
           className="text-blue-500 hover:underline"
