@@ -59,7 +59,7 @@ export default function Search({
         <div className="flex-1">
           <input
             type="text"
-            placeholder="Search for projects..."
+            placeholder="Search for impacted research..."
             className="w-full h-[46px] px-4 py-3 border border-[#e2e8f0] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#012169]"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}

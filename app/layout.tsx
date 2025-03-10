@@ -4,7 +4,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Save Research | Columbia University",
   description:
-    "Our response to the $400 million budget cuts. Helping researchers in need. Built by Alexa Kayman, Alex Denuzzo, and Joseph JoJoe.",
+    "Our response to the $400 million budget cuts. Helping researchers in need. Built by Alexa Kayman, Alex Denuzzo, and Joseph Jojoe.",
   openGraph: {
     images: [
       {
@@ -33,7 +33,7 @@ export default function RootLayout({
         >
           Alexa Kayman
         </a>
-        .<br></br>Co-conspired by{" "}
+        ,{" "}
         <a
           href="https://www.linkedin.com/in/josephjojo/"
           className="text-blue-500 hover:underline"
@@ -45,7 +45,7 @@ export default function RootLayout({
           href="https://www.linkedin.com/in/alexdenuzzo/"
           className="text-blue-500 hover:underline"
         >
-          Alex Denuzzo
+          Alex DeNuzzo
         </a>
         , who published this{" "}
         <a
