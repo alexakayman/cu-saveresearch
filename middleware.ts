@@ -7,7 +7,7 @@ export function middleware(req: NextRequest) {
   }
 
   if (req.nextUrl.pathname === "/claims/research") {
-    return NextResponse.redirect("/");
+    return NextResponse.redirect(req.nextUrl.origin + "/");
   }
 
   return NextResponse.next(); // Continue with normal processing
