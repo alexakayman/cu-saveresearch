@@ -5,6 +5,10 @@ export function middleware(req: NextRequest) {
   if (req.nextUrl.pathname === "/student-narratives-qr-code") {
     return NextResponse.redirect("https://forms.gle/11e5DHnS6mVLcNhe9");
   }
-  
+
+  if (req.nextUrl.pathname === "/claims/research") {
+    return NextResponse.redirect("/");
+  }
+
   return NextResponse.next(); // Continue with normal processing
 }
