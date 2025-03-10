@@ -38,7 +38,7 @@ export default function RootLayout({
           href="https://www.linkedin.com/in/josephjojo/"
           className="text-blue-500 hover:underline"
         >
-          Joseph JoJoe
+          Joseph Jojoe
         </a>{" "}
         and{" "}
         <a
