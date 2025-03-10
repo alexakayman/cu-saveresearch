@@ -73,29 +73,6 @@ export default async function Home() {
           <Link href="/" className="text-[#012169] text-xl font-bold">
             CU Accelerate
           </Link>
-          <nav className="hidden md:flex items-center gap-6">
-            <Link
-              href="/claim-research"
-              className="text-[#012169] hover:text-[#001345]"
-            >
-              Claim Research
-            </Link>
-            <Link href="/faq" className="text-[#012169] hover:text-[#001345]">
-              FAQ
-            </Link>
-            <Link
-              href="/letter"
-              className="text-[#012169] hover:text-[#001345]"
-            >
-              Letter
-            </Link>
-            <Link
-              href="/support"
-              className="bg-[#012169] text-white px-6 py-2 rounded-full hover:bg-[#001345] transition-colors"
-            >
-              Support
-            </Link>
-          </nav>
         </div>
       </header>
 
