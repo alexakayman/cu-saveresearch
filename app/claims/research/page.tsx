@@ -82,10 +82,10 @@ export default async function Home() {
           {/* Hero Section */}
           <div className="text-center mb-16">
             <h1 className="text-4xl md:text-6xl font-bold text-[#012169] mb-6">
-              PIs: Claim your research.
+              Claim and save your research.
             </h1>
             <p className="text-[#012169]/70 max-w-3xl mx-auto text-lg">
-              Has your grant been cancelled? Claim your research and add critical needs here.
+              Calling PIs. Has your grant been cancelled? Claim your research and add critical needs here.
             </p>
           </div>
 
