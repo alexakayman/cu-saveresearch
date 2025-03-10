@@ -71,7 +71,7 @@ export default async function Home() {
       <header className="py-6 px-6 md:px-12">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <Link href="/" className="text-[#012169] text-xl font-bold">
-            CU Accelerate
+            Accelerate Columbia
           </Link>
         </div>
       </header>
