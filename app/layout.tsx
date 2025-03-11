@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata: Metadata = {
   title: "Save Research | Columbia University",
   description:
-    "Our response to the $400 million budget cuts. Helping researchers in need. Built by Alexa Kayman, Alex Denuzzo, and Joseph JoJoe.",
+    "Our response to the $400 million budget cuts. Helping researchers in need. Built by Alexa Kayman, Alex Denuzzo, and Joseph Jojoe.",
   openGraph: {
     images: [
       {
@@ -24,6 +25,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <Analytics />
+      <head>
+        <link rel="icon" href="/favicon.ico" />
+      </head>
       <body>{children}</body>
       <footer className="text-center p-4 mb-4">
         Built by{" "}
@@ -33,7 +38,7 @@ export default function RootLayout({
         >
           Alexa Kayman
         </a>
-        .<br></br>Co-conspired by{" "}
+        ,{" "}
         <a
           href="https://www.linkedin.com/in/josephjojo/"
           className="text-blue-500 hover:underline"
@@ -45,7 +50,7 @@ export default function RootLayout({
           href="https://www.linkedin.com/in/alexdenuzzo/"
           className="text-blue-500 hover:underline"
         >
-          Alex Denuzzo
+          Alex DeNuzzo
         </a>
         , who published this{" "}
         <a

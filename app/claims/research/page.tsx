@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
-import { supabase } from "./lib/supabase";
-import ResearchClient from "./components/ResearchClient";
+import { supabase } from "../../lib/supabase";
+import UnclaimedResearchClient from "@/app/components/UnclaimedResearchClient";
 
 interface ResearchData {
   awardNumber: string;
@@ -70,24 +70,9 @@ export default async function Home() {
       {/* Header */}
       <header className="py-6 px-6 md:px-12">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <Image
-            src="/accelerate.png"
-            alt="CU Accelerate"
-            width={150}
-            height={35}
-            priority
-          />
-          <nav className="flex space-x-4">
-            <a
-              href="/claims/research"
-              className="text-[#012169] text-lg hover:underline"
-            >
-              Claim Research
-            </a>
-            <a href="/faq" className="text-[#012169] text-lg hover:underline">
-              FAQs
-            </a>
-          </nav>
+          <Link href="/" className="text-[#012169] text-xl font-bold">
+            Accelerate Columbia
+          </Link>
         </div>
       </header>
 
@@ -97,16 +82,21 @@ export default async function Home() {
           {/* Hero Section */}
           <div className="text-center mb-16">
             <h1 className="text-4xl md:text-6xl font-bold text-[#012169] mb-6">
-              Fund what matters
+              Claim and save your research.
             </h1>
-            <p className="text-[#012169]/70 max-w-3xl mx-auto text-lg">
-              For Researchers: Claim your research and add critical needs.
-              <br />
-              For Supporters: Pledge what you can, share what you can't.
+            <p className="text-[#012169]/70 max-w-3xl mx-auto text-lg mb-4">
+              Calling PIs. Has your grant been cancelled? Claim your research
+              and add critical needs here.
             </p>
+            <Link
+              className="border border-[#012169] text-[#012169] px-4 py-2 rounded-full text-sm hover:bg-[#f1f5f9] transition-colors m-4"
+              href="/claims/add"
+            >
+              Add Unlisted Research
+            </Link>
           </div>
 
-          <ResearchClient
+          <UnclaimedResearchClient
             initialData={initialData}
             initialTotalCount={totalCount}
           />
