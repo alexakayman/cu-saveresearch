@@ -84,9 +84,16 @@ export default async function Home() {
             <h1 className="text-4xl md:text-6xl font-bold text-[#012169] mb-6">
               Claim and save your research.
             </h1>
-            <p className="text-[#012169]/70 max-w-3xl mx-auto text-lg">
-              Calling PIs. Has your grant been cancelled? Claim your research and add critical needs here.
+            <p className="text-[#012169]/70 max-w-3xl mx-auto text-lg mb-4">
+              Calling PIs. Has your grant been cancelled? Claim your research
+              and add critical needs here.
             </p>
+            <Link
+              className="border border-[#012169] text-[#012169] px-4 py-2 rounded-full text-sm hover:bg-[#f1f5f9] transition-colors m-4"
+              href="/claims/add"
+            >
+              Add Unlisted Research
+            </Link>
           </div>
 
           <UnclaimedResearchClient
