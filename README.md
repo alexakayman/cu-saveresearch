@@ -17,11 +17,9 @@ This platform serves as a bridge between Columbia University researchers and pot
 - **Framework**: Next.js App Router
 - **Runtime**: Bun
 - **Database**: Supabase
-- **Authentication**: Supabase Auth
 - **Styling**: Tailwind CSS with shadcn/ui components
 - **State Management**: React Hooks
 - **Form Handling**: React Hook Form with Zod validation
-- **Analytics**: Vercel Analytics
 
 ## Getting Started
 
