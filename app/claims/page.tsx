@@ -23,12 +23,12 @@ export default function ReportPage() {
             Report a Canceled Grant
           </button>
         </Link>
-        <Link href="">
+        <Link href="https://docs.google.com/forms/d/e/1FAIpQLSegbovCG89rkpTNMjHqQNAQ1WZ4RaIlW9ih4BYcCV6yr8wrdA/viewform?usp=header">
           <button className="w-full px-8 py-4 bg-[#012169] text-white rounded-lg shadow-lg hover:bg-[#012169]/90">
             Report Other Impact (Faculty & Staff)
           </button>
         </Link>
-        <Link href="https://forms.gle/75r6LNNzueqsc4rYA">
+        <Link href="https://docs.google.com/forms/d/e/1FAIpQLSe1phuR5045GkhKmMIiUAh2rihIDPlAoGSVIb2qH5tXKMIlzQ/viewform?usp=dialog">
           <button className="w-full px-8 py-4 bg-[#012169] text-white rounded-lg shadow-lg hover:bg-[#012169]/90">
             Report a Student Impact
           </button>
