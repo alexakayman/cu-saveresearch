@@ -2,6 +2,8 @@
 
 Accelerate Columbia is a crowdsourcing fundraising platform designed to support research projects affected by recent $400M federal funding cuts. The platform enables researchers to claim their research projects and outline critical needs, while allowing supporters to make pledges and share projects with their networks.
 
+![Accelerate Columbia - Save Research in Need| Columbia University](./public/graphimage.png)
+
 ## About the Project
 
 This platform serves as a bridge between Columbia University researchers and potential supporters during a challenging period of federal funding reductions. It provides a transparent way to:

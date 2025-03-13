@@ -52,13 +52,6 @@ export default function RootLayout({
         >
           Alex DeNuzzo
         </a>
-        , who published this{" "}
-        <a
-          href="https://www.linkedin.com/in/alexdenuzzo/"
-          className="text-blue-500 hover:underline"
-        >
-          letter
-        </a>
         .
       </footer>
     </html>
